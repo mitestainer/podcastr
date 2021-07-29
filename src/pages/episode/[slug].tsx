@@ -6,6 +6,8 @@ import { convertDurationToTimeString } from '../../utils/convertDurationToTimeSt
 import styles from './episode.module.scss'
 import Image from 'next/image'
 import Link from 'next/link'
+import Head from 'next/head'
+import { usePlayer } from '../../contexts/PlayerContext'
 
 type Episode = {
   id: string
@@ -24,8 +26,12 @@ type EpisodeProps = {
 }
 
 export default function Episode({ episode }: EpisodeProps) {
+  const { handlePlay } = usePlayer()
   return (
     <div className={styles.episode}>
+      <Head>
+        <title>{`${episode.title} | Podcastr`}</title>
+      </Head>
       <div className={styles.thumbnailContainer}>
         <Link href="/">
           <button type="button">
@@ -38,7 +44,7 @@ export default function Episode({ episode }: EpisodeProps) {
           src={episode.thumbnail}
           objectFit="cover"
         />
-        <button type="button">
+        <button type="button" onClick={() => handlePlay(episode)}>
           <img src="/play.svg" alt="Tocar episódio" />
         </button>
       </div>
